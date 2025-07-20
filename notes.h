@@ -12,6 +12,6 @@ void write_note(const char* note);
 int read_notes(char* search_string);
 int get_user_id(char* note_user_tag, char* note);
 time_t get_note_time(char* timestamp, char* note);
-int search_note(char *note, char *keyword);
+bool search_note(char *note, char *keyword);
 
 #endif

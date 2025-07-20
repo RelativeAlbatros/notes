@@ -122,9 +122,9 @@ int read_notes(char* search_string) {
 		epoch_note_time = get_note_time(timestamp, note);
 		note_time = localtime(&epoch_note_time);
 
-		if (note_user_id == user_id) {
-			printf("(%02d:%02d %02d/%02d/%04d) %s", note_time->tm_hour, note_time->tm_min,
-					note_time->tm_mday, note_time->tm_mon + 1, note_time->tm_year + 1900,
+		if (note_user_id == user_id && search_note(note, search_string)) {
+			printf("(%02d:%02d %02d/%02d/%02d) %s", note_time->tm_hour, note_time->tm_min,
+					note_time->tm_mday, note_time->tm_mon + 1, (note_time->tm_year + 1900) % 100,
 					note + index_secnd_tab + 1);
 		}
 	}
@@ -158,12 +158,12 @@ time_t get_note_time(char* timestamp, char* note) {
 	return epoch_note_time;
 }
 
-int search_note(char *note, char *keyword) {
+bool search_note(char *note, char *keyword) {
 	int keyword_length, match=0;
 
 	keyword_length = strlen(keyword);
 	if (keyword_length == 0)
-		return -1;
+		return true;
 
 	for (int i = 0; i < strlen(note); i++) {
 		if (note[i] == keyword[match])
@@ -175,8 +175,8 @@ int search_note(char *note, char *keyword) {
 				match = 0;
 		}
 		if (match == keyword_length)
-			return 1;
+			return true;
 	}
-	return 0;
+	return false;
 }
 
